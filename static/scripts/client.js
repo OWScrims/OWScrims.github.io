@@ -1,4 +1,5 @@
 var id = localStorage.getItem("owscrims-id");
+var scrims = {};
 
 var updateCallback = function(scrims) {
     $("table#scrims tbody tr.scrim").remove();
@@ -80,6 +81,7 @@ s.onmessage = function(msg) {
             send(s, "PONG", "");
             break;
         case "UPDATE":
+            scrims = data.body;
             updateCallback(data.body);
             break;
         case "IDENT":
