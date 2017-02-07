@@ -77,11 +77,9 @@ s.onmessage = function(msg) {
     console.log(data);
     switch (data.header) {
         case "PING":
-            console.info("Ping");
             send(s, "PONG", "");
             break;
         case "UPDATE":
-            console.log("Data updated:", data.body);
             updateCallback(data.body);
             break;
         case "IDENT":
