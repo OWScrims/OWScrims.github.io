@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico" />
+    <link href="/static/bower_components/milligram/dist/milligram.min.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/static/styles/main.css" media="screen" rel="stylesheet" type="text/css" />
+    <link type="text/css" href="//fonts.googleapis.com/css?family=Armata&subset=latin%2Clatin-ext" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/scripts/reconnecting-websocket.js"></script>
+    <title>OW Scrims</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row topbar">
+            <div class="column">
+                <h1>OW Scrims</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <form>
+                    <div class="row">
+                        <fieldset style="display:none;">
+                            <label for="contact">Contact</label><input type="text" required placeholder="Test#1234" id="contact">
+                            <label for="tierSelection">Tier</label>
+                            <select id="tierSelection">
+                                <option value="High++">High++ (Pro/Top500)</option>
+                                <option value="High+">High+ (Grandmaster)</option>
+                                <option value="High">High (Master)</option>
+                                <option value="Mid">Mid (Diamond)</option>
+                                <option value="Low">Low (Platinum and lower)</option>
+                            </select>
+                            <label for="regionSelection">Region</label>
+                            <select id="regionSelection">
+                                <option value="NA">Americas</option>
+                                <option value="SEA">Asia</option>
+                                <option value="EU">Europe</option>
+                            </select>
+                        </fieldset>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a class="button" id="revealButton">Look for scrim</a>
+                        </div>
+                        <div class="column">
+                            <input type="submit" class="button" value="Submit" id="submitButton" style="display:none;">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="column column-75">
+                <table id="scrims">
+                    <thead>
+                        <tr>
+                            <th>Contact</th>
+                            <th>Tier</th>
+                            <th>When</th>
+                            <th>Region</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <tr style="display:none;" class="scrim" data-template>
+        <td class="scrim-contact"></td>
+        <td class="scrim-tier"></td>
+        <td class="scrim-when"></td>
+        <td class="scrim-region"></td>
+    </tr>
+</body>
+<script type="text/javascript" src="/static/scripts/client.js"></script>
+<script type="text/javascript">
+(function() {
+    var rb = $("#revealButton");
+    rb.click(function() {
+        if (rb.text() === "Cancel") {
+            send(s, "CLEAR", null);
+            $("#submitButton").removeAttr("disabled");
+            $("#submitButton").toggle("slow");
+            $("fieldset").toggle("slow", function () {
+                rb.text("Look for scrim");
+                rb.removeClass("button-outline");
+            });
+        } else {
+            $("#submitButton").toggle("slow", function () {
+            });
+            $("fieldset").toggle("slow", function () {
+            });
+            rb.text("Cancel");
+            rb.addClass("button-outline");
+        }
+    });
+})();
+(function() {
+    $("#submitButton").click(function() {
+        $(this).attr("disabled", "disabled");
+        send(s, "SET", {
+            contact: $("#contact").val(),
+            tier: document.querySelector("#tierSelection").options[document.querySelector("#tierSelection").selectedIndex].value,
+            region: document.querySelector("#regionSelection").options[document.querySelector("#regionSelection").selectedIndex].value
+        });
+    });
+})();
+</script>
+</html>
