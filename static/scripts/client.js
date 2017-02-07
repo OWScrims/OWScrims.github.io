@@ -50,6 +50,7 @@ function send(socket, header, body) {
 }
 
 var s = new window.ReconnectingWebSocket("wss://fast-ridge-37917.herokuapp.com/");
+
 s.onopen = function() {
     console.info("Connected");
     if (id) {
@@ -73,10 +74,11 @@ s.onmessage = function(msg) {
         console.error(err);
         return;
     }
+    console.log(data);
     switch (data.header) {
         case "PING":
             console.info("Ping");
-            send(s, "PONG", +new Date());
+            send(s, "PONG", "");
             break;
         case "UPDATE":
             console.log("Data updated:", data.body);
