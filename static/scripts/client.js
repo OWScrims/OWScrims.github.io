@@ -49,7 +49,7 @@ function send(socket, header, body) {
     }
 }
 
-var s = new window.ReconnectingWebSocket("ws://fast-ridge-37917.herokuapp.com/");
+var s = new window.ReconnectingWebSocket("wss://fast-ridge-37917.herokuapp.com/");
 s.onopen = function() {
     console.info("Connected");
     if (id) {
