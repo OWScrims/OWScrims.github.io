@@ -3,9 +3,6 @@ var scrims = {};
 
 var updateCallback = function(data) {
     $("table#scrims tbody tr.scrim").remove();
-    if (Object.keys(scrims).length < 1) {
-        return;
-    }
     scrims = data;
     for (var i = 0; i < scrims.length; i++) {
         var s = scrims[i];
