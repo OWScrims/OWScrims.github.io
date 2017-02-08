@@ -1,31 +1,46 @@
 var id = localStorage.getItem("owscrims-id");
-var scrims = {};
+var scrims = [];
 
 var updateCallback = function(data) {
-    if (!data.length) return;
     $("table#scrims tbody tr").remove();
     scrims = data;
-    for (var i = 0; i < scrims.length; i++) {
-        var s = scrims[i];
+    if (!data.length) {
         var tr = document.createElement("tr");
-
-        var cc = document.createElement("td");
-        cc.textContent = s.contact;
-        tr.appendChild(cc);
-
-        var tc = document.createElement("td");
-        tc.textContent = s.tier;
-        tr.appendChild(tc);
-
-        var wc = document.createElement("td");
-        wc.textContent = "Now";
-        tr.appendChild(wc);
-
-        var rc = document.createElement("td");
-        rc.textContent = s.region;
-        tr.appendChild(rc);
-
+        var a = document.createElement("td");
+        var i = document.createElement("i");
+        i.textContent = "No results (yet)";
+        a.appendChild(i);
+        tr.appendChild(a);
+        var b = document.createElement("td");
+        tr.appendChild(b);
+        var c = document.createElement("td");
+        tr.appendChild(c);
+        var d = document.createElement("td");
+        tr.appendChild(d);
         document.querySelector("table#scrims tbody").appendChild(tr);
+    } else {
+        for (var i = 0; i < scrims.length; i++) {
+            var s = scrims[i];
+            var tr = document.createElement("tr");
+
+            var cc = document.createElement("td");
+            cc.textContent = s.contact;
+            tr.appendChild(cc);
+
+            var tc = document.createElement("td");
+            tc.textContent = s.tier;
+            tr.appendChild(tc);
+
+            var wc = document.createElement("td");
+            wc.textContent = "Now";
+            tr.appendChild(wc);
+
+            var rc = document.createElement("td");
+            rc.textContent = s.region;
+            tr.appendChild(rc);
+
+            document.querySelector("table#scrims tbody").appendChild(tr);
+        }
     }
 };
 (function() {
