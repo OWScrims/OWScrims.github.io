@@ -57,20 +57,16 @@ var updateCallback = function(data) {
     c.value = cc || "";
 })();
 
-function send(socket, header, body) {
-    try {
-        socket.send(JSON.stringify({header: header.toUpperCase(), body: body, timestamp: +new Date()}));
-    } catch(err) {
-        console.error(err);
-    }
-}
-
 var s = new window.ReconnectingWebSocket("wss://fast-ridge-37917.herokuapp.com/");
+var wait = [];
 
 s.onopen = function() {
     console.info("Connected");
     if (id) {
-        send(s, "IDENT", id);
+        send(s, message("IDENT", id));
+    }
+    while (wait.length) {
+        send(s, wait.pop());
     }
 };
 
@@ -93,7 +89,7 @@ s.onmessage = function(msg) {
     console.log(data);
     switch (data.header) {
         case "PING":
-            send(s, "PONG", "");
+            send(s, message("PONG", ""));
             break;
         case "UPDATE":
             scrims = data.body;
@@ -110,3 +106,24 @@ s.onmessage = function(msg) {
             break;
     }
 };
+
+function message(header, body) {
+    try {
+        return JSON.stringify({header: header.toUpperCase(), body: body, timestamp: +new Date()});
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+}
+
+function send(socket, msg) {
+    if (s.readyState !== WebSocket.OPEN) {
+        wait.push(msg);
+        return;
+    }
+    try {
+        socket.send(msg);
+    } catch(err) {
+        console.error(err);
+    }
+}

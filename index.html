@@ -100,11 +100,11 @@
         localStorage.setItem("owscrims-contact", $("#contact").val());
         localStorage.setItem("owscrims-tier", document.querySelector("#tierSelection").selectedIndex);
         localStorage.setItem("owscrims-region", document.querySelector("#regionSelection").selectedIndex);
-        send(s, "SET", {
+        send(s, message("SET", {
             contact: $("#contact").val(),
             tier: document.querySelector("#tierSelection").options[document.querySelector("#tierSelection").selectedIndex].value,
             region: document.querySelector("#regionSelection").options[document.querySelector("#regionSelection").selectedIndex].value
-        });
+        }));
     });
 })();
 (function() {
