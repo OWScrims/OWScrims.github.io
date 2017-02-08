@@ -2,7 +2,7 @@ var id = localStorage.getItem("owscrims-id");
 var scrims = {};
 
 var updateCallback = function(data) {
-    $("table#scrims tbody tr.scrim").remove();
+    $("table#scrims tbody tr").remove();
     scrims = data;
     for (var i = 0; i < scrims.length; i++) {
         var s = scrims[i];
