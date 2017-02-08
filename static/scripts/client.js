@@ -1,5 +1,6 @@
 var id = localStorage.getItem("owscrims-id");
 var scrims = [];
+var logging = false;
 
 var updateCallback = function(data) {
     $("table#scrims tbody tr").remove();
@@ -86,7 +87,7 @@ s.onmessage = function(msg) {
         console.error(err);
         return;
     }
-    console.log(data);
+    if (logging) console.log(data);
     switch (data.header) {
         case "PING":
             send(s, message("PONG", ""));
