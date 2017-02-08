@@ -58,7 +58,7 @@ var updateCallback = function(data) {
     c.value = cc || "";
 })();
 
-var s = new window.ReconnectingWebSocket("wss://fast-ridge-37917.herokuapp.com/");
+var s = new window.ReconnectingWebSocket("wss://owscrims.herokuapp.com/");
 var wait = [];
 
 s.onopen = function() {
