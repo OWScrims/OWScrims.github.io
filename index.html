@@ -95,12 +95,22 @@
 (function() {
     $("#submitButton").click(function() {
         $(this).attr("disabled", "disabled");
+        if (!$("#contact").val()) return;
+
+        localStorage.setItem("owscrims-contact", $("#contact").val());
+        localStorage.setItem("owscrims-tier", document.querySelector("#tierSelection").selectedIndex);
+        localStorage.setItem("owscrims-region", document.querySelector("#regionSelection").selectedIndex);
         send(s, "SET", {
             contact: $("#contact").val(),
             tier: document.querySelector("#tierSelection").options[document.querySelector("#tierSelection").selectedIndex].value,
             region: document.querySelector("#regionSelection").options[document.querySelector("#regionSelection").selectedIndex].value
         });
     });
+})();
+(function() {
+    $("#contact").val(localStorage.getItem("owscrims-contact") ? localStorage.getItem("owscrims-contact") : "")
+    document.querySelector("#tierSelection").selectedIndex = parseInt(localStorage.getItem("owscrims-tier")) || 2;
+    document.querySelector("#regionSelection").selectedIndex = parseInt(localStorage.getItem("owscrims-region")) || 2;
 })();
 </script>
 </html>
