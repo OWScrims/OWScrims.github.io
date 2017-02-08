@@ -75,7 +75,7 @@
     var rb = $("#revealButton");
     rb.click(function() {
         if (rb.text() === "Cancel") {
-            send(s, "CLEAR", null);
+            send(s, message("CLEAR", null));
             $("#submitButton").removeAttr("disabled");
             $("#submitButton").toggle("slow");
             $("fieldset").toggle("slow", function () {
